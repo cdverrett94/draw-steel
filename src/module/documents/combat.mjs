@@ -358,4 +358,87 @@ export default class DrawSteelCombat extends foundry.documents.Combat {
       }
     }
   }
+
+  /* -------------------------------------------------- */
+  /*   Encounter Building Helpers                       */
+  /* -------------------------------------------------- */
+
+  /**
+   * Calculate the encounter strength for one hero based on the average level of provided heroes.
+   * Used for calculating the heroes encounter strength for victories and the encounter difficulty.
+   * @param {Array<DrawSteelActor>} actors The group of actors to find the base one heroes' ES off of.
+   * @returns
+   */
+  static calculateOneHeroesEncounterStrength(actors) {
+    const totalLevel = actors.reduce((total, actor) => total + (actor.system.level ?? 0), 0);
+    const averageLevel = Math.floor(totalLevel / actors.length);
+
+    return ds.CONST.heroEncounterStrengthPerLevel[averageLevel] ?? 0;
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Calculate the encounter strength for the heroes provided.
+   * @param {Array<DrawSteelActor>} actors The heroes to calculate the Encounter Strength for.
+   * @returns {number}
+   */
+  static calculateEncounterStrength(actors) {
+    let encounterStrength = 0;
+    let victories = 0;
+    const numberOfHeroes = actors.filter(actor => actor.type === "hero").length;
+
+    for (const actor of actors) {
+      encounterStrength += ds.CONST.heroEncounterStrengthPerLevel[actor.system.level] ?? 0;
+      if (actor.type === "hero") victories += actor.system.hero.victories;
+    }
+
+    const averageVictories = Math.floor(victories / numberOfHeroes);
+    const victoryHeroes = Math.floor(averageVictories / 2);
+    encounterStrength += victoryHeroes * this.calculateOneHeroesEncounterStrength(actors);
+
+    return encounterStrength || 0; // Guard against the possibility of the value becoming NaN
+  }
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Calculate the encounter value for the number of enemies provided.
+   * @param {Array<DrawSteelActor>} actors The enemies to calculate the encounter value for.
+   * @returns {number}
+   */
+  static calculateEncounterValue(actors) {
+    // TODO: Account for other actor types like Dynamic Terrain once implemented.
+    const groupsByName = Object.groupBy(actors, (actor) => actor.name);
+
+    const encounterValue = Object.values(groupsByName).reduce((ev, current) => {
+      const firstActor = current[0];
+      const multiplier = firstActor.isMinion ? Math.ceil(current.length / 4) : current.length;
+      ev += (multiplier ?? 0) * firstActor.system.monster.ev;
+      return ev;
+    }, 0);
+
+    return encounterValue || 0; // Guard against the possibility of the value becoming NaN
+  }
+
+  /**
+   * Calculate the encounter difficulty based on the heroes encounter strength and encounter value of monsters.
+   * @param {number} encounterStrength The heroes encounter strength.
+   * @param {number} encounterValue The encounter value of all enemies.
+   * @param {number} oneHeroesES The encounter strength of one hero.
+   */
+  static calculateEncounterDifficulty(encounterStrength, encounterValue, oneHeroesES) {
+    const thresholds = {
+      trivial: encounterStrength - oneHeroesES,
+      easy: encounterStrength,
+      standard: encounterStrength + oneHeroesES,
+      hard: encounterStrength + (3 * oneHeroesES),
+    };
+
+    if (encounterValue < thresholds.trivial) return "trivial";
+    else if ((encounterValue >= thresholds.trivial) && (encounterValue < thresholds.easy)) return "easy";
+    else if ((encounterValue >= thresholds.easy) && (encounterValue <= thresholds.standard)) return "standard";
+    else if ((encounterValue > thresholds.standard) && (encounterValue <= thresholds.hard)) return "hard";
+    else return "extreme";
+  }
 }

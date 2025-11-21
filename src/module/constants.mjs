@@ -114,6 +114,37 @@ export const testOutcomes = {
     tier2: "DRAW_STEEL.ROLL.Power.TestResult.Failure",
     tier3: "DRAW_STEEL.ROLL.Power.TestResult.Success",
     critical: "DRAW_STEEL.ROLL.Power.TestResult.SuccessReward",
+ * The encounter strength for a hero at each level.
+ * @type {Array<number>}
+ */
+export const heroEncounterStrengthPerLevel = Object.freeze([0, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24]);
+
+/* -------------------------------------------------- */
+
+/**
+ * The encounter strength for a hero at each level.
+ * @type {Record<string, {label: string, victories: number}>}
+ */
+export const encounterDifficulties = {
+  trivial: {
+    label: "DRAW_STEEL.Combat.Difficulty.Trivial",
+    victories: 0,
+  },
+  easy: {
+    label: "DRAW_STEEL.Combat.Difficulty.Easy",
+    victories: 1,
+  },
+  standard: {
+    label: "DRAW_STEEL.Combat.Difficulty.Standard",
+    victories: 1,
+  },
+  hard: {
+    label: "DRAW_STEEL.Combat.Difficulty.Hard",
+    victories: 2,
+  },
+  extreme: {
+    label: "DRAW_STEEL.Combat.Difficulty.Extreme",
+    victories: 2,
   },
 };
 

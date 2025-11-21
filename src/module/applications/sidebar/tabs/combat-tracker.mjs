@@ -30,6 +30,9 @@ export default class DrawSteelCombatTracker extends sidebar.tabs.CombatTracker {
     header: {
       template: "templates/sidebar/tabs/combat/header.hbs",
     },
+    details: {
+      template: systemPath("templates/sidebar/tabs/combat/details.hbs"),
+    },
     // Inherited, only used for "alternative" combat
     tracker: {
       template: "templates/sidebar/tabs/combat/tracker.hbs",
@@ -127,6 +130,16 @@ export default class DrawSteelCombatTracker extends sidebar.tabs.CombatTracker {
 
     context.nullTurn = combat?.combatant && !numberTurn;
     context.canEndTurn = isPlayerTurn && canControl;
+
+    const heroes = combat?.combatants.filter(c => (c.actor?.type === "hero") && c.hasPlayerOwner).map(c => c.actor) ?? [];
+    const oneHeroesES = Combat.implementation.calculateOneHeroesEncounterStrength(heroes);
+    context.encounterStrength = Combat.implementation.calculateEncounterStrength(heroes);
+
+    const enemies = combat?.combatants.filter(c => c.actor?.type === "npc").map(c => c.actor) ?? [];
+    context.encounterValue = Combat.implementation.calculateEncounterValue(enemies);
+
+    const difficulty = Combat.implementation.calculateEncounterDifficulty(context.encounterStrength, context.encounterValue, oneHeroesES);
+    context.encounterDifficulty = game.i18n.localize(ds.CONST.encounterDifficulties[difficulty].label);
   }
 
   /* -------------------------------------------------- */

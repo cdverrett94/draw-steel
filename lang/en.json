@@ -907,6 +907,21 @@
         "ResetSurgeResources": {
           "label": "Reset Surges"
         }
+      },
+      "Difficulty": {
+        "Trivial": "Trivial",
+        "Easy": "Easy",
+        "Standard": "Standard",
+        "Hard": "Hard",
+        "Extreme": "Extreme"
+      },
+      "EV": {
+        "Label": "EV",
+        "Tooltip": "Encounter Value"
+      },
+      "ES": {
+        "Label": "ES",
+        "Tooltip": "Encounter Strength"
       }
     },
     "Combatant": {

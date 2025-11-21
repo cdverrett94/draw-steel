@@ -7,6 +7,21 @@
     }
   }
 
+  .combat-details {
+    display: flex;
+    padding: 0px var(--element-spacing) 0px 1.25rem;
+    gap: var(--element-spacing);
+    .difficulty {
+      flex: 1;
+    }
+    .ev, .es {
+      text-align: right;
+    }
+    .ev {
+      padding-right: 0.5em;
+    }
+  }
+
   .combat-tracker.ds-default {
     padding-inline: var(--element-spacing);
 
