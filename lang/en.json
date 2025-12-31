@@ -27,6 +27,13 @@
             "label": "Level",
             "hint": "The level at which this advancement can be granted."
           }
+        },
+        "repickOnRespite": {
+          "label": "Repick on Respite",
+          "Choices": {
+            "activity": "As a Respite Activity",
+            "finish": "Finish a Respite"
+          }
         }
       },
       "CHARACTERISTIC": {
@@ -110,7 +117,8 @@
         "chooseAll": "Choose All",
         "unknownItem": "Unknown Item",
         "reconfigure": "Reconfigure Advancement",
-        "warnDrop": "{itemType} items do not support {advancementType} advancements."
+        "warnDrop": "{itemType} items do not support {advancementType} advancements.",
+        "repick": "Repick"
       },
       "WARNING": {
         "cannotAddNewType": "You cannot add a new {type} to a character that already has one.",

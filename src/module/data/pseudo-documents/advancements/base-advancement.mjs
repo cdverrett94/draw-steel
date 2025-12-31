@@ -7,7 +7,7 @@ import { systemPath } from "../../../constants.mjs";
  * @import AdvancementChain from "../../../utils/advancement-chain.mjs";
  */
 
-const { HTMLField, NumberField, SchemaField } = foundry.data.fields;
+const { HTMLField, NumberField, SchemaField, StringField } = foundry.data.fields;
 
 /**
  * Advancements provide configurable modifications to actors beyond what ActiveEffects can provide.
@@ -31,6 +31,10 @@ export default class BaseAdvancement extends TypedPseudoDocument {
     return Object.assign(super.defineSchema(), {
       description: new HTMLField(),
       requirements: new SchemaField(this.defineRequirements()),
+      repickOnRespite: new StringField({ initial: null, nullable: true, choices: {
+        activity: "DRAW_STEEL.ADVANCEMENT.FIELDS.repickOnRespite.Choices.activity",
+        finish: "DRAW_STEEL.ADVANCEMENT.FIELDS.repickOnRespite.Choices.finish",
+      } }),
     });
   }
 

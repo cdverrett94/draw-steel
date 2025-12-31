@@ -7,6 +7,11 @@
     {{/if}}
   </fieldset>
 
+  <fieldset>
+    <legend>{{localize "DRAW_STEEL.ADVANCEMENT.SHEET.repick"}}</legend>
+    {{formGroup fields.repickOnRespite value=source.repickOnRespite localize=true blank="No"}}
+  </fieldset>
+
   {{#if fields.additional}}
   <fieldset>
     <legend>{{localize "DRAW_STEEL.ADVANCEMENT.SHEET.additional"}}</legend>

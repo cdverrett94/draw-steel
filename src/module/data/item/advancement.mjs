@@ -50,8 +50,17 @@ export default class AdvancementModel extends BaseItemModel {
       for (const k of trait) record[type].add(k);
     };
 
+    const respiteAdvancements = this.actor.system._respiteAdvancements;
+
     const level = this.actor.system.level;
     for (const advancement of this.advancements) {
+      // Populate _respiteAdvancements
+      if (advancement.repickOnRespite) {
+        respiteAdvancements[advancement.repickOnRespite] ??= new Set();
+        respiteAdvancements[advancement.repickOnRespite].add(advancement.getRelativeUUID(this.actor));
+      }
+
+      // Populate _unfilledTraits
       if (!advancement.levels.some(l => l <= level)) continue;
       if (advancement.isTrait) {
         const selected = advancement.isChoice
