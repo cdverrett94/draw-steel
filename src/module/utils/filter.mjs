@@ -3,7 +3,7 @@
  */
 export default class Filter {
   /**
-   * @param {object} statements   An object containing both logical and equality filter statements.
+   * @param {object} statements   An object containing both logical and comparison filter statements.
    */
   constructor(statements) {
     this.statements = statements;
@@ -29,19 +29,13 @@ export default class Filter {
    * @returns {boolean}
    */
   #evaluate(data, statement) {
-    // Step 1. Validate the statement object.
-    if ((statement == null) || (typeof statement !== "object")) {
-      console.warn(`Invalid filter statement: ${JSON.stringify(statement)}. The statement was evaluated as false.`);
-      return false;
-    }
-
-    // Step 2. Check if any logic operators are used.
+    // Step 1. Check if any logic operators are used.
     const logicOperator = Filter.logicOperators.find(operator => Object.hasOwn(statement, operator));
     if (logicOperator) return this[logicOperator](data, statement[logicOperator]);
 
-    // Step 3. Check for equality operator statements.
+    // Step 2. Check for comparison operator statements.
     const { operator, key, value: filterValue } = statement;
-    if (!Filter.equalityOperators.includes(operator)) {
+    if (!Filter.comparisonOperators.includes(operator)) {
       console.warn(`Invalid Filter Operator: ${operator}. The statement was evaluated as false.`);
       return false;
     }
@@ -99,14 +93,14 @@ export default class Filter {
   }
 
   /* -------------------------------------------------- */
-  /*   Equality Operators                                */
+  /*   Comparison Operators                                */
   /* -------------------------------------------------- */
 
   /**
-   * All possible equality operators for a statement.
+   * All possible comparison operators for a statement.
    * @type {string[]}
    */
-  static equalityOperators = ["equals", "equalsAny", "gt", "gte", "lt", "lte", "has", "hasAll", "hasAny"];
+  static comparisonOperators = ["equals", "equalsAny", "gt", "gte", "lt", "lte", "has", "hasAll", "hasAny"];
 
   /* -------------------------------------------------- */
 
