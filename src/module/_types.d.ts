@@ -107,16 +107,14 @@ export interface FilterComparisonStatement {
   v: string | number;
 }
 
-export type FilterLogicStatement =
-  | { and: FilterStatement[] }
-  | { or: FilterStatement[] }
-  | { not: FilterStatement };
-
+export type FilterLogicStatement = { [string: "and" | "or" | "not"]: FilterStatement | FilterStatement[] };
 
 export type FilterStatement = FilterComparisonStatement | FilterLogicStatement;
 
 declare module "./utils/filter.mjs" {
   export default interface Filter {
     statements: FilterStatement;
+    valid: boolean;
+    validationReasons: string[];
   }
 }

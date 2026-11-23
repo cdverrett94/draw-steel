@@ -2704,9 +2704,9 @@
           "NoEmptyArray": "{path}: {operator} requires a non-empty array of statements."
         },
         "Comparison": {
-          "InvalidKeys": "{path}: Invalid Comparison Keys - {invalid}",
-          "MissingKeys": "{path}: Missing Required Comparison Keys - {missing}",
-          "InvalidOperator": "{path}: {operator} is not a valid comparison"
+          "InvalidKeys": "{path}: Invalid Comparison Keys - {invalid}.",
+          "MissingKeys": "{path}: Missing Required Comparison Keys - {missing}.",
+          "InvalidOperator": "{path}: {operator} is not a valid comparison."
         }
       }
     }

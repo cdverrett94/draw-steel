@@ -22,6 +22,30 @@ export default class Filter {
   /* -------------------------------------------------- */
 
   /**
+   * An object containing both logical and comparison filter statements.
+   * @type {FilterStatement}
+   */
+  statements;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * Is {@linkcode statements} a valid filter statement?
+   * @type {boolean}
+   */
+  valid;
+
+  /* -------------------------------------------------- */
+
+  /**
+   * An array of which parts of the filter statement are not valid and why they are not valid.
+   * @type {string[]}
+   */
+  validationReasons;
+
+  /* -------------------------------------------------- */
+
+  /**
    * Evaluate the filter's statements against the provided data.
    * @param {object} data   The data object to evaluate the filter against.
    * @returns {boolean}
@@ -218,13 +242,11 @@ export default class Filter {
 
   /**
    * Validate a filter's statement(s).
-   * @returns {{valid: boolean, failureReasons: string[]}}
+   * @returns {{ valid: boolean, failureReasons: string[] }}
    */
   validate() {
     const failureReasons = [];
-
     this.constructor.validateStatement(this.statements, failureReasons, "root");
-
     return { valid: !failureReasons.length, failureReasons };
   }
 
@@ -242,7 +264,7 @@ export default class Filter {
 
     const statementKeys = new Set(Object.keys(statement));
 
-    if (statementKeys.intersection(this.validLogicOperators).size) this.validateLogicStatement(statement, failureReasons, path);
+    if (statementKeys.intersects(this.validLogicOperators)) this.validateLogicStatement(statement, failureReasons, path);
     else this.validateComparisonStatement(statement, failureReasons, path);
   }
 
