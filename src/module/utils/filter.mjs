@@ -87,7 +87,7 @@ export default class Filter {
 
   /**
    * Evaluate if all of the statements are true.
-   * @param {object} data                              The data object to evaluate the filter statement against.
+   * @param {object} data                    The data object to evaluate the filter statement against.
    * @param {FilterStatement[]} statements   An array of conditional statement objects.
    * @returns {boolean}
    */
@@ -99,7 +99,7 @@ export default class Filter {
 
   /**
    * Evaluate if any of the statements are true.
-   * @param {object} data                              The data object to evaluate the filter statement against.
+   * @param {object} data                    The data object to evaluate the filter statement against.
    * @param {FilterStatement[]} statements   An array of conditional statements.
    * @returns {boolean}
    */
@@ -111,12 +111,12 @@ export default class Filter {
 
   /**
    * Evaluates to the inverse of the provided statement.
-   * @param {object} data                 The data object to evaluate the filter statement against.
-   * @param {FilterStatement} statement   A conditional statement.
+   * @param {object} data                    The data object to evaluate the filter statement against.
+   * @param {FilterStatement[]} statements   An array of conditional statements.
    * @returns {boolean}
    */
-  static not(data, statement) {
-    return !this.evaluateStatement(data, statement);
+  static not(data, statements) {
+    return !this.and(data, statements);
   }
 
   /* -------------------------------------------------- */

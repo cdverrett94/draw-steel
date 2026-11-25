@@ -107,7 +107,7 @@ export interface FilterComparisonStatement {
   v: string | number;
 }
 
-export type FilterLogicStatement = { [string: "and" | "or" | "not"]: FilterStatement | FilterStatement[] };
+export type FilterLogicStatement = { [Operator in "and"|"or"|"not"]?: FilterStatement[] };
 
 export type FilterStatement = FilterComparisonStatement | FilterLogicStatement;
 
