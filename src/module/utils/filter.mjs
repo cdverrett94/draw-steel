@@ -313,7 +313,7 @@ export default class Filter {
 
     if ("and" in statement) validateArrayOperator("and");
     if ("or" in statement) validateArrayOperator("or");
-    if ("not" in statement) this.validateStatement(statement.not, failureReasons, `${path}.not`);
+    if ("not" in statement) validateArrayOperator("not");
   }
 
   /* -------------------------------------------------- */
